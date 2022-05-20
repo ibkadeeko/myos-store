@@ -1,0 +1,72 @@
+{
+  "name": "basic-typescript-template",
+  "version": "0.0.1",
+  "main": "build/src/index.js",
+  "repository": "https://github.com/ibkadeeko/basic-typescript-template.git",
+  "author": "Ibukunoluwa Adeeko <ibukunadeeko@gmail.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "rimraf build && tsc",
+    "start": "node build/src/index.js",
+    "dev": "NODE_ENV=development tsc-watch --onSuccess \"node ./build/src/index.js\"",
+    "test": "TS_NODE_FILES=true NODE_ENV=test mocha -r ts-node/register --files src \"__tests__/**/*.test.ts\" --timeout 40000 --exit"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "cors": "^2.8.5",
+    "date-fns": "^2.28.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^5.0.2",
+    "morgan": "^1.10.0",
+    "winston": "^3.7.2",
+    "winston-console-format": "^1.0.8"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^6.1.2",
+    "@types/chai": "^4.3.1",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/mocha": "^9.1.0",
+    "@types/morgan": "^1.9.3",
+    "@types/supertest": "^2.0.12",
+    "@types/validator": "^13.7.2",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "chai": "^4.3.6",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^12.3.8",
+    "mocha": "^9.2.2",
+    "nock": "^13.2.4",
+    "prettier": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "supertest": "^6.2.2",
+    "ts-node-dev": "^1.1.8",
+    "tsc-watch": "^5.0.3",
+    "typescript": "^4.6.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn build",
+      "pre-push": "yarn test"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,md}": [
+      "prettier --write"
+    ],
+    "src/**/*.{js,ts}": [
+      "eslint --fix"
+    ]
+  },
+  "engines": {
+    "node": ">=14.19.1",
+    "npm": ">=6.14.16"
+  }
+}
