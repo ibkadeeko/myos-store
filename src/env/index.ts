@@ -8,11 +8,39 @@ export enum envEnum {
 }
 
 export interface EnvStore {
-  NODE_ENV: string;
+  DATABASE_TYPE: string;
+  DATABASE_HOST: string;
+  DATABASE_PORT: string;
+  DATABASE_USERNAME: string;
+  DATABASE_PASSWORD: string;
+  DATABASE_NAME: string;
+  TEST_DATABASE_TYPE: string;
+  TEST_DATABASE_HOST: string;
+  TEST_DATABASE_PORT: string;
+  TEST_DATABASE_USERNAME: string;
+  TEST_DATABASE_PASSWORD: string;
+  TEST_DATABASE_NAME: string;
+  DB_LOGGING: string;
+  JWT_SECRET: string;
+  JWT_EXPIRY_TIME: string;
 }
 
 export const envStore: EnvStore = {
-  NODE_ENV: envEnum.DEV,
+  DATABASE_TYPE: '',
+  DATABASE_HOST: '',
+  DATABASE_PORT: '',
+  DATABASE_USERNAME: '',
+  DATABASE_PASSWORD: '',
+  DATABASE_NAME: '',
+  TEST_DATABASE_TYPE: '',
+  TEST_DATABASE_HOST: '',
+  TEST_DATABASE_PORT: '',
+  TEST_DATABASE_USERNAME: '',
+  TEST_DATABASE_PASSWORD: '',
+  TEST_DATABASE_NAME: '',
+  DB_LOGGING: '',
+  JWT_SECRET: '',
+  JWT_EXPIRY_TIME: '',
 };
 
 const setEnvStoreFromEnvironment = () => {

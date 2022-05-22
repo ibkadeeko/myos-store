@@ -68,7 +68,7 @@ const createLoggerForSpecificModule = (component: string): Logger => {
       ...(['local', 'test'].includes(env) ? [] : [new transports.File(options(component).errorFile)]),
     ],
     exitOnError: false,
-    silent: env === 'test',
+    // silent: env === 'test',
   });
 
   logger.add(new transports.Console(options(component).console));
