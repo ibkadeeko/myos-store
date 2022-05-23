@@ -123,6 +123,6 @@ POST /carts/:id/checkout
     "zip": "",
     "country": "",
   },
-  "paymentId": "12344,
+  "paymentId": "12344",
 }
 ```
