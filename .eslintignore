@@ -1,4 +1,4 @@
 node_modules/*
 build/*
 __tests__/*
-src/database/data/*
+src/database/migrations/*

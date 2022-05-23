@@ -22,6 +22,13 @@ class BadRequestError extends ApplicationError {
   }
 }
 
+class UnauthorizedError extends ApplicationError {
+  constructor(message: string) {
+    super(message, 401, 'UnauthorizedError');
+    this.name = 'UnauthorizedError';
+  }
+}
+
 class NotFoundError extends ApplicationError {
   constructor(message: string) {
     super(message, 404, 'NotFoundError');
@@ -33,6 +40,13 @@ class ResourceNotFoundError extends ApplicationError {
   constructor(message: string) {
     super(message, 404, 'ResourceNotFoundError');
     this.name = 'ResourceNotFoundError';
+  }
+}
+
+class ConflictError extends ApplicationError {
+  constructor(message: string) {
+    super(message, 409, 'ConflictError');
+    this.name = 'ConflictError';
   }
 }
 
@@ -52,8 +66,10 @@ class InternalError extends ApplicationError {
 
 export default {
   BadRequestError,
+  UnauthorizedError,
   NotFoundError,
   ResourceNotFoundError,
+  ConflictError,
   InternalServerError,
   InternalError,
 };

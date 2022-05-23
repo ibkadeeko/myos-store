@@ -1,4 +1,6 @@
 import http from 'http';
+import { Connection } from 'typeorm';
+
 import app from './app';
 import { generalLogger } from './lib';
 const port = process.env.PORT || 8008;
@@ -40,6 +42,7 @@ const onError = (error: any) => {
 };
 
 const closeServer = () => {
+  generalLogger.info('Shutting down server and open connections');
   server.close(() => {
     generalLogger.info('Server shut down');
   });
@@ -55,10 +58,14 @@ process.on('SIGINT', () => {
   closeServer();
 });
 
-const startServer = () => {
+const startServer = (connection: Connection) => {
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
+  server.addListener('close', () => {
+    connection.close();
+    generalLogger.info('Database Connection Closed');
+  });
 };
 
 export default startServer;

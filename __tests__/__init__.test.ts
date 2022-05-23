@@ -3,6 +3,7 @@ import supertest from 'supertest';
 
 import app from '../src/app';
 import connectionWrapper from '../src/connectionWrapper';
+import { seedProducts } from './utils';
 
 const server = supertest.agent(app)
 
@@ -14,6 +15,7 @@ const initTests = async () => {
 
 before(async function beforeHook() {
   await initTests();
+  await seedProducts(50);
 })
 
 describe('Server Setup', () => {
