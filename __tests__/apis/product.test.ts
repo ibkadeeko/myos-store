@@ -1,18 +1,15 @@
 import { assert } from 'chai';
 import supertest from 'supertest';
-import faker from '@faker-js/faker';
+import faker from 'faker';
 
 import app from '../../src/app';
-import { seedProducts, getProductData } from '../utils';
+import { getProductData } from '../utils';
 import { productService } from '../../src/services';
 
 const server = supertest.agent(app);
 
 describe('Product Router', function () {
   let product: any;
-  before(async function beforeHook() {
-    await seedProducts(50);
-  });
 
   describe('GET /products', () => {
     it('should return all products', async () => {

@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import supertest from 'supertest';
-import faker from '@faker-js/faker';
+import faker from 'faker';
 
 import app from '../../src/app';
 

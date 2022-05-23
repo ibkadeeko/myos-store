@@ -5,8 +5,9 @@ export const formatProductResponse = (product: Product) => {
     id: product.id,
     title: product.title,
     slug: product.slug,
-    price: product.price,
+    price: Number(product.price),
     imageUrl: product.imageUrl,
     description: product.description,
+    quantity: Number(product.quantity),
   };
 };

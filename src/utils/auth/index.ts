@@ -21,37 +21,37 @@ export const getAuthToken = (payload: any) => {
 };
 
 export const verifyToken = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const { authorization } = req.headers;
+  try {
+    const { authorization } = req.headers;
 
-  if (!authorization) {
-    throw new httpErrors.UnauthorizedError('No token Provided');
-  }
+    if (!authorization) {
+      throw new httpErrors.UnauthorizedError('No token Provided');
+    }
 
-  if (authorization.split(' ')[0] !== 'Bearer') {
-    throw new httpErrors.UnauthorizedError('Invalid token supplied');
-  }
-
-  const [, token] = authorization.split(' ');
-
-  const decodedToken: any = jwt.verify(token, envStore.JWT_SECRET, (err) => {
-    if (err) {
+    if (authorization.split(' ')[0] !== 'Bearer') {
       throw new httpErrors.UnauthorizedError('Invalid token supplied');
     }
-  });
 
-  const { userId } = decodedToken;
+    const [, token] = authorization.split(' ');
 
-  if (!userId) {
-    throw new httpErrors.UnauthorizedError('Invalid token supplied');
+    const decodedToken: any = jwt.verify(token, envStore.JWT_SECRET);
+
+    const { userId } = decodedToken;
+
+    if (!userId) {
+      throw new httpErrors.UnauthorizedError('Invalid token supplied');
+    }
+
+    const foundUser = await getUserById(userId);
+
+    if (!foundUser) {
+      throw new httpErrors.UnauthorizedError('Invalid token supplied');
+    }
+
+    req.decodedToken = decodedToken;
+
+    return next();
+  } catch (error) {
+    return next(error);
   }
-
-  const foundUser = await getUserById(userId);
-
-  if (!foundUser) {
-    throw new httpErrors.UnauthorizedError('Invalid token supplied');
-  }
-
-  req.decodedToken = decodedToken;
-
-  return next();
 };

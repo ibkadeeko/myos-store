@@ -27,7 +27,7 @@ export enum FulfillmentStatus {
 @Entity()
 export class Order extends BaseEntity {
   @Column()
-  paymentId: boolean;
+  paymentId: string;
 
   @Column({ type: 'jsonb', nullable: true })
   address: ContactAddress;

@@ -1,12 +1,13 @@
 import { QueryRunner } from 'typeorm';
 import { getRepoWithQueryRunner } from './dao.util';
-import { Cart } from '../entities';
+import { Cart, CartStatus } from '../entities';
 
 const queryForCartByParams = (qr?: QueryRunner) => {
   return getRepoWithQueryRunner(Cart, qr)
     .createQueryBuilder('cart')
     .leftJoinAndSelect('cart.user', 'user')
-    .leftJoinAndSelect('cart.cartItems', 'cartItems');
+    .leftJoinAndSelect('cart.cartItems', 'cartItems')
+    .leftJoinAndSelect('cartItems.product', 'product');
 };
 
 const getCartByParams = async (whereQuery: string, whereParams: any, qr?: QueryRunner) => {
@@ -19,6 +20,10 @@ export const getCartById = async (id: string, qr?: QueryRunner) => {
 
 export const getCartByUserId = async (userId: string, qr?: QueryRunner) => {
   return getCartByParams('cart.userId = :userId', { userId }, qr);
+};
+
+export const getUserOpenCart = async (userId: string, qr?: QueryRunner) => {
+  return getCartByParams('cart.userId = :userId AND cart.status = :status', { userId, status: CartStatus.OPEN }, qr);
 };
 
 export const createCart = async (data: Pick<Cart, 'user'>, qr?: QueryRunner) => {
@@ -42,27 +47,6 @@ export const deleteCartById = async (id: string, qr?: QueryRunner) => {
   return deletedCart.affected === 1;
 };
 
-// export const getCartByProductId = async (productId: string, qr?: QueryRunner) => {
-//   return getCartByParams('cart.productId = :productId', { productId }, qr);
-// };
-
-// export const getCartByUserIdAndProductId = async (userId: string, productId: string, qr?: QueryRunner) => {
-//   return getCartByParams('user.id = :userId AND product.id = :productId', { userId, productId }, qr);
-// };
-
-// export const createCartIfNotExists = async (data: Pick<Cart, 'user' | 'product' | 'quantity'>, qr?: QueryRunner) => {
-//   const cartRepository = getRepoWithQueryRunner(Cart, qr);
-
-//   const existingCart = await getCartByUserIdAndProductId(data.user.id, data.product.id, qr);
-
-//   if (existingCart) {
-//     return existingCart;
-//   }
-
-//   const createdCart = await cartRepository.save(cartRepository.create(data));
-//   return getCartById(createdCart.id, qr);
-// };
-
-// export const getAllUserCarts = async (userId: string, qr?: QueryRunner) => {
-//   return queryForCartByParams(qr).where('user.id = :userId', { userId }).getMany();
-// };
+export const getAllUserCarts = async (userId: string, qr?: QueryRunner) => {
+  return queryForCartByParams(qr).where('user.id = :userId', { userId }).getMany();
+};

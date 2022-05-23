@@ -61,3 +61,12 @@ export const createProductIfNotExists = async (
 
   return getProductById(product.id, qr);
 };
+
+export const updateProductById = async (id: string, data: Partial<Product>, qr?: QueryRunner) => {
+  const productRepository = getRepoWithQueryRunner(Product, qr);
+  const updatedProduct = await productRepository.update({ id }, data);
+  if (updatedProduct.affected !== 1) {
+    throw new Error('Error updating product');
+  }
+  return getProductById(id, qr);
+};
